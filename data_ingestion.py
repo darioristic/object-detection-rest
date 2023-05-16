@@ -27,14 +27,16 @@ def ingest_data(data_folder='./data', max_images=5):
         aws_access_key_id=s3_access_key, aws_secret_access_key=s3_secret_key
     )
     bucket = s3.Bucket(s3_bucket_name)
-
+    
+    prefix = 'onnx-models/vision/tiny-yolo/'
+    
     download_count = 0
-    for s3_object in bucket.objects.all():
+    for s3_object in bucket.objects.filter(Prefix=prefix):
         if download_count == max_images:
             break
         key = s3_object.key
         if key.endswith('.jpg'):
-            local_file_path = path.join(data_folder, key)
+            local_file_path = path.join(data_folder, path.basename(key))
             bucket.download_file(key, local_file_path)
             download_count += 1
 
