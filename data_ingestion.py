@@ -3,6 +3,7 @@ from os import environ, path
 from boto3 import resource
 
 
+
 def ingest_data(data_folder='./data', max_images=5):
     print('Commencing data ingestion.')
 
